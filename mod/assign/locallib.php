@@ -2850,9 +2850,17 @@ class assign {
         foreach ($newlyavailable as $record) {
             $cm = get_coursemodule_from_instance('assign', $record->id, 0, false, MUST_EXIST);
             $context = context_module::instance($cm->id);
-
             $assignment = new assign($context, null, null);
-            $assignment->update_calendar($cm->id);
+            try{
+                $assignment->update_calendar($cm->id);
+            }catch(Exception $e){
+                if(str_contains($e->file,"lib/dml/moodle_database.php"))
+                {
+                    mtrace("Invaild Context ID");
+                }else{
+                    throw $e;
+                }
+            }
         }
 
         return true;
