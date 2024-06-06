@@ -2854,7 +2854,7 @@ class assign {
             try{
                 $assignment->update_calendar($cm->id);
             }catch(Exception $e){
-                if(str_contains($e->file,"lib/dml/moodle_database.php"))
+                if(str_contains($e->getFile(),"lib/dml/moodle_database.php"))
                 {
                     mtrace("Invaild Context ID");
                 }else{
